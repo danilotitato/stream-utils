@@ -4,6 +4,7 @@
   "description": "Simple API to be used by stream elements commands related to Trackmania",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
