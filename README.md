@@ -1,2 +1,2 @@
 # TM-stream-utils
-Simple API to be used by streamelements commands related to Trackmania
+Simple API to be used by stream bots commands related to Trackmania
