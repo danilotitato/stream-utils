@@ -1,18 +1,19 @@
 const { DateTime } = require('luxon');
 
 const cotdRemainingTime = () => {
-    const now = DateTime.now().toUTC();
+    const localTime = DateTime.now().setZone('Europe/Paris');
 
-    const cotDayTime = now.set({hour: 17, minute: 0});
-    const cotNightTime = now.set({hour: 1, minute: 0});
-    const cotMorningTime = now.set({hour: 9, minute: 0});
+    // Cup times specified by Nadeo
+    const cotDayTime = localTime.set({hour: 19, minute: 0});
+    const cotNightTime = localTime.set({hour: 3, minute: 0});
+    const cotMorningTime = localTime.set({hour: 11, minute: 0});
 
-    const diffDay = getTimeDiff(now, cotDayTime);
-    const diffNight = getTimeDiff(now, cotNightTime);
-    const diffMorning = getTimeDiff(now, cotMorningTime);
+    const diffDay = getTimeDiff(localTime, cotDayTime);
+    const diffNight = getTimeDiff(localTime, cotNightTime);
+    const diffMorning = getTimeDiff(localTime, cotMorningTime);
 
     const hours = Math.min(diffDay.hours, diffNight.hours, diffMorning.hours);
-    const minutes = diffDay.minutes; // they will always be the same
+    const minutes = diffDay.minutes; // They will always be the same
     const nextCup = hours === diffDay.hours
         ? 'Day'
         : hours === diffNight.hours
@@ -26,7 +27,7 @@ const cotdRemainingTime = () => {
 }
 
 const getRunningCup = (nextCup, hours, minutes) => {
-    if (hours >= 7 && minutes >= 15) { // rough estimative of 45 minutes per cup
+    if (hours >= 7 && minutes >= 15) { // Rough estimative of 45 minutes per cup
         return nextCup === 'Day'
             ? 'Morning'
             : nextCup === 'Morning'
@@ -35,11 +36,11 @@ const getRunningCup = (nextCup, hours, minutes) => {
     }
 }
 
-const getTimeDiff = (now, cupTime) => {
-    let diff = cupTime.diff(now, ['hours', 'minutes']).toObject();
+const getTimeDiff = (localTime, cupTime) => {
+    let diff = cupTime.diff(localTime, ['hours', 'minutes']).toObject();
 
     if (diff.hours < 0 || diff.minutes < 0)
-        diff = cupTime.plus({days: 1}).diff(now, ['hours', 'minutes']).toObject();
+        diff = cupTime.plus({days: 1}).diff(localTime, ['hours', 'minutes']).toObject();
 
     return diff;
 }
