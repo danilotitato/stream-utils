@@ -39,6 +39,9 @@ const rankMatchMaking = async (accountId, type) => {
         });
 
         const rank = data.matchmaking[matchMakingType[type]].info.division.position;
+        const score = data.matchmaking[matchMakingType[type]].info.score;
+        const remainingScore = data.matchmaking[matchMakingType[type]].info.division_next.minpoints - score;
+        const nextRank = data.matchmaking[matchMakingType[type]].info.division_next.position;
 
         if (!rank) {
             console.error('Error: ', 'Invalid matchmaking data');
@@ -46,8 +49,9 @@ const rankMatchMaking = async (accountId, type) => {
         }
 
         const rankName = rankNames[matchMakingType[type]][rank];
+        const nextRankName = rankNames[matchMakingType[type]][nextRank];
 
-        return `${type} rank: ${rankName}`;
+        return `${type} rank: ${rankName} - ${score} points (${remainingScore} left for ${nextRankName})`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
