@@ -4,6 +4,7 @@ const retrievePlayerId = require('../utils/retrieve-player-id.js');
 const cotdRemainingTime = require('../utils/cotd-remaining-time.js');
 const lastCotdResult = require('../utils/last-cotd-result.js');
 const rankMatchMaking = require('../utils/rank-matchmaking.js');
+const totdInfo = require('../utils/totd-info.js');
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 
 router.get('/', (req, res) => {
@@ -11,7 +12,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/cotdtime', (req, res) => {
-    res.send(cotdRemainingTime());
+    try {
+        res.send(cotdRemainingTime());
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 });
 
 router.get('/lastcotd', async (req, res) => {
@@ -96,6 +101,14 @@ router.get('/royalrank', async (req, res) => {
         }
 
         res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.get('/totdinfo', async (req, res) => {
+    try {
+        res.send(await totdInfo());
     } catch (error) {
         res.status(400).send(error.message);
     }
