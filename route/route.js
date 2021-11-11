@@ -5,6 +5,7 @@ const cotdRemainingTime = require('../utils/cotd-remaining-time.js');
 const lastCotdResult = require('../utils/last-cotd-result.js');
 const rankMatchMaking = require('../utils/rank-matchmaking.js');
 const totdInfo = require('../utils/totd-info.js');
+const timePlaying = require('../utils/time-playing.js');
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 
 router.get('/', (req, res) => {
@@ -109,6 +110,35 @@ router.get('/royalrank', async (req, res) => {
 router.get('/totdinfo', async (req, res) => {
     try {
         res.send(await totdInfo());
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.get('/timeplaying', async (req, res) => {
+    const name = req.query.name;
+
+    if (!isInputValidString(name)) {
+        res.status(400).send('Invalid player name');
+        return;
+    }
+
+    try {
+        const accountId = await retrievePlayerId(name);
+
+        if (!accountId) {
+            res.status(404).send('Player not found');
+            return;
+        }
+
+        const result = await timePlaying(accountId);
+
+        if (!result) {
+            res.status(500).send('Malformed response from trackmania.io');
+            return;
+        }
+
+        res.send(result);
     } catch (error) {
         res.status(400).send(error.message);
     }
