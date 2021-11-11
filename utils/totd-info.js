@@ -28,7 +28,7 @@ const getMapUid = async () => {
 }
 
 const cleanTMString = input => {
-    const re = /\$([0-9, A-F, a-f]{1,3}|[w, n, o, i, t, s, g, z]{1})/g;
+    const re = /\$([0-9A-Fa-f]{1,3}|[wnoitsgz]{1})/g;
     return input.replaceAll(re, '');
 }
 
