@@ -11,8 +11,9 @@ const totdInfo = async () => {
         const authorName = data.authorplayer.name;
         const mapName = cleanTMString(data.name);
         const mapUrl = `https://trackmania.exchange/tracks/view/${data.exchangeid}`
+        const mapUrlMessage = data.exchangeid ? `Check it here: ${mapUrl}` : 'Not uploaded to trackmania.exchange';
 
-        return `${mapName} by ${authorName}. Check it here: ${mapUrl}`;
+        return `${mapName} by ${authorName}. ${mapUrlMessage}`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
