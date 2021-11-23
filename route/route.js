@@ -210,32 +210,4 @@ router.get('/avgcotd', async (req, res) => {
     }
 });
 
-router.get('/watchaction', async (req, res) => {
-    const user = req.query.user;
-    const channel = req.query.channel;
-
-    if (!isInputValidString(user)) {
-        res.status(400).send('Invalid user');
-        return;
-    }
-
-    if (!isInputValidString(channel)) {
-        res.status(400).send('Invalid user');
-        return;
-    }
-
-    try {
-        const action = await buildAction(user, channel);
-
-        if (!action) {
-            res.status(404).send('Not able to retrieve an action');
-            return;
-        }
-
-        res.send(result);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-});
-
 module.exports = router;
