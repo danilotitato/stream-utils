@@ -171,7 +171,7 @@ router.get('/bestcotd', async (req, res) => {
         const result = await cotdRanking(accountId, (isPrimary === 'true') , false);
 
         if (!result) {
-            res.status(500).send('Malformed response from trackmania.io');
+            res.status(404).send('Matchmaking info not available');
             return;
         }
 

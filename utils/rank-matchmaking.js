@@ -37,15 +37,17 @@ const rankMatchMaking = async (accountId, type) => {
             headers: { 'User-Agent': 'tm-stream-utils/0.1.0 +https://github.com/danilotitato/TM-stream-utils' }
         });
 
-        const rank = data.matchmaking[matchMakingType[type]].info.division.position;
-        const score = data.matchmaking[matchMakingType[type]].info.score;
-        const remainingScore = data.matchmaking[matchMakingType[type]].info.division_next.minpoints - score;
-        const nextRank = data.matchmaking[matchMakingType[type]].info.division_next.position;
+        const matchmakingData = data.matchmaking[matchMakingType[type]];
 
-        if (!rank) {
+        if (!matchmakingData) {
             console.error('Error: ', 'Invalid matchmaking data');
             return;
         }
+
+        const rank = matchmakingData.info.division.position;
+        const score = matchmakingData.info.score;
+        const remainingScore = matchmakingData.info.division_next.minpoints - score;
+        const nextRank = matchmakingData.info.division_next.position;
 
         const rankName = rankNames[matchMakingType[type]][rank];
         const nextRankName = rankNames[matchMakingType[type]][nextRank];
