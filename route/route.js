@@ -70,7 +70,7 @@ router.get('/3v3rank', async (req, res) => {
         const result = await rankMatchMaking(accountId, '3v3');
 
         if (!result) {
-            res.status(500).send('Malformed response from trackmania.io');
+            res.status(404).send('Matchmaking info not available');
             return;
         }
 
@@ -99,7 +99,7 @@ router.get('/royalrank', async (req, res) => {
         const result = await rankMatchMaking(accountId, 'Royal');
 
         if (!result) {
-            res.status(500).send('Malformed response from trackmania.io');
+            res.status(404).send('Matchmaking info not available');
             return;
         }
 
@@ -171,7 +171,7 @@ router.get('/bestcotd', async (req, res) => {
         const result = await cotdRanking(accountId, (isPrimary === 'true') , false);
 
         if (!result) {
-            res.status(404).send('Matchmaking info not available');
+            res.status(500).send('Malformed response from trackmania.io');
             return;
         }
 
@@ -201,6 +201,34 @@ router.get('/avgcotd', async (req, res) => {
 
         if (!result) {
             res.status(500).send('Malformed response from trackmania.io');
+            return;
+        }
+
+        res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.get('/watchaction', async (req, res) => {
+    const user = req.query.user;
+    const channel = req.query.channel;
+
+    if (!isInputValidString(user)) {
+        res.status(400).send('Invalid user');
+        return;
+    }
+
+    if (!isInputValidString(channel)) {
+        res.status(400).send('Invalid user');
+        return;
+    }
+
+    try {
+        const action = await buildAction(user, channel);
+
+        if (!action) {
+            res.status(404).send('Not able to retrieve an action');
             return;
         }
 
