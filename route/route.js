@@ -1,17 +1,21 @@
 const express = require('express');
+const req = require('express/lib/request');
 const router = express.Router();
-const retrievePlayerId = require('../utils/retrieve-player-id.js');
-const retrieveCampaignId = require('../utils/retrieve-campaign-id.js');
-const cotdRemainingTime = require('../utils/cotd-remaining-time.js');
-const lastCotdResult = require('../utils/last-cotd-result.js');
-const rankMatchMaking = require('../utils/rank-matchmaking.js');
-const totdInfo = require('../utils/totd-info.js');
-const timePlaying = require('../utils/time-playing.js');
-const cotdRanking = require('../utils/cotd-ranking.js');
-const campaignLeaderboard = require('../utils/campaign-leaderboard');
+
+const campaignLeaderboard = require('../trackmania/campaign-leaderboard');
+const cotdRanking = require('../trackmania/cotd-ranking.js');
+const cotdRemainingTime = require('../trackmania/cotd-remaining-time.js');
+const lastCotdResult = require('../trackmania/last-cotd-result.js');
+const rankMatchMaking = require('../trackmania/rank-matchmaking.js');
+const retrieveCampaignId = require('../trackmania/retrieve-campaign-id.js');
+const retrievePlayerId = require('../trackmania/retrieve-player-id.js');
+const timePlaying = require('../trackmania/time-playing.js');
+const totdInfo = require('../trackmania/totd-info.js');
+
+const lastInstaPost = require('../socials/instagram.js').lastInstaPost;
+
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;
-const req = require('express/lib/request');
 
 router.get('/', (req, res) => {
     res.send('Yep, it is up');
@@ -233,6 +237,28 @@ router.get('/leaderboard', async (req, res) => {
 
         if (!result) {
             res.status(500).send('Malformed response from trackmania.io');
+            return;
+        }
+
+        res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.get('/lastinsta', async (req, res) => {
+    const user = req.query.user;
+
+    if (!isInputValidString(user)) {
+        res.status(400).send('Invalid username');
+        return;
+    }
+
+    try {
+        const result = await lastInstaPost(user);
+
+        if (!result) {
+            res.status(500).send('Malformed response from instagram');
             return;
         }
 
