@@ -12,8 +12,9 @@ const retrievePlayerId = require('../trackmania/retrieve-player-id.js');
 const timePlaying = require('../trackmania/time-playing.js');
 const totdInfo = require('../trackmania/totd-info.js');
 
-const lastInstaPost = require('../socials/instagram.js').lastInstaPost;
 const instaWar = require('../socials/instagram.js').instaWar;
+const lastInstaPost = require('../socials/instagram.js').lastInstaPost;
+const lastTiktokPost = require('../socials/tiktok.js');
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;
@@ -290,6 +291,28 @@ router.get('/instawar', async (req, res) => {
 
         if (!result) {
             res.status(500).send('Malformed response from instagram');
+            return;
+        }
+
+        res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.get('/lasttiktok', async (req, res) => {
+    const user = req.query.user;
+
+    if (!isInputValidString(user)) {
+        res.status(400).send('Invalid username');
+        return;
+    }
+
+    try {
+        const result = await lastTiktokPost(user);
+
+        if (!result) {
+            res.status(500).send('Malformed response from tiktok');
             return;
         }
 
