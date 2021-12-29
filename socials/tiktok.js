@@ -1,5 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
+const getCache = require('../utils/cache.js').getCache;
 
 const timer = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -11,11 +12,13 @@ const lastTiktokPost = async username => {
         while(true) {
             const tiktokUrl = `www.tiktok.com/@${username}`;
             const scraperUrl = `http://api.scraperapi.com?api_key=${process.env.SCRAPERAPI_KEY}&url=${tiktokUrl}`;
-            const page = await axios.get(scraperUrl, { cache: {maxAge: 60 * 60 * 1000 } });
+            const page = await axios.get(scraperUrl);
 
             lastVideos = page.data.match(videoUrlRe);
 
             if (lastVideos) {
+                const cache = getCache();
+                cache.set(username, lastVideos[0]);
                 return lastVideos[0];
             }
 
