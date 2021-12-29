@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "express": "^4.17.1",
+    "instagram-api.js": "^0.0.9",
     "luxon": "^2.0.2"
   },
   "engines": {
