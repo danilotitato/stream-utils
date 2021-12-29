@@ -1,10 +1,15 @@
 require('dotenv').config();
 const axios = require('axios');
 const getCache = require('../utils/cache.js').getCache;
+const getBackupCache = require('../utils/cache.js').getBackupCache;
 
-const timer = ms => new Promise(resolve => setTimeout(resolve, ms))
+const timer = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const maxAttepmts = 5;
 
 const lastTiktokPost = async username => {
+    let attempts = 1;
+
     try {
         const videoUrlRe = /www.tiktok.com\/@\w+\/video\/\d+/gm;
 
@@ -16,12 +21,20 @@ const lastTiktokPost = async username => {
 
             lastVideos = page.data.match(videoUrlRe);
 
+            const cache = getCache();
+            const backupCache = getBackupCache();
+
             if (lastVideos) {
-                const cache = getCache();
                 cache.set(username, lastVideos[0]);
+                backupCache.set(username, lastVideos[0]);
                 return lastVideos[0];
             }
 
+            if (attempts >= maxAttepmts && backupCache.has(username)) {
+                return backupCache.get(username);
+            }
+
+            ++attempts;
             await timer(500);
         }
     } catch (error) {
