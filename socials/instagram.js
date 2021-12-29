@@ -2,14 +2,14 @@ const instaApi = require("instagram-api.js");
 
 const lastInstaPost = async username => {
     try {
-        const userInfo = await instaApi.user(username);
+        const userData = await instaApi.user(username);
 
-        if (!userInfo) {
+        if (!userData) {
             console.error('Error: ', 'No instagram profile data');
             return;
         }
 
-        const lastPosts = userInfo.edge_owner_to_timeline_media.edges;
+        const lastPosts = userData.edge_owner_to_timeline_media.edges;
 
         if (!lastPosts) {
             console.error('Error: ', 'No instagram posts data');
@@ -25,5 +25,29 @@ const lastInstaPost = async username => {
     }
 }
 
+const instaWar = async (targetUser, rivalUser, targetAlias, rivalAlias,
+        winningEmote, losingEmote) => {
+    try {
+        const targetUserData = await instaApi.user(targetUser);
+        const rivalUserData = await instaApi.user(rivalUser);
 
-module.exports = {lastInstaPost};
+        if (!targetUserData || !rivalUserData) {
+            console.error('Error: ', 'No instagram profile data');
+            return;
+        }
+
+        const targetFollowers = targetUserData.edge_followed_by.count;
+        const rivalFollowers = rivalUserData.edge_followed_by.count;
+        const followersDiff = rivalFollowers - targetFollowers;
+
+        const diffMsg = followersDiff > 0 ? ` Need ${followersDiff} followers more!` : '';
+        const emote = followersDiff >= 0 ? losingEmote : winningEmote;
+
+        return `${targetAlias} has ${targetFollowers} followers vs. ${rivalFollowers} from ${rivalAlias} on instagram ${emote}${diffMsg} Follow me on instagram.com/${targetUser}`
+    } catch (error) {
+        console.error('Error: ', error.message);
+        throw error;
+    }
+}
+
+module.exports = {instaWar, lastInstaPost};
