@@ -13,6 +13,7 @@ const timePlaying = require('../trackmania/time-playing.js');
 const totdInfo = require('../trackmania/totd-info.js');
 
 const lastInstaPost = require('../socials/instagram.js').lastInstaPost;
+const instaWar = require('../socials/instagram.js').instaWar;
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;
@@ -256,6 +257,36 @@ router.get('/lastinsta', async (req, res) => {
 
     try {
         const result = await lastInstaPost(user);
+
+        if (!result) {
+            res.status(500).send('Malformed response from instagram');
+            return;
+        }
+
+        res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.get('/instawar', async (req, res) => {
+    const targetUser = req.query.targetUser;
+    const rivalUser = req.query.rivalUser;
+    const targetAlias = req.query.targetAlias || targetUser;
+    const rivalAlias = req.query.rivalAlias || rivalUser;
+    const winningEmote = req.query.winningEmote || '';
+    const losingEmote = req.query.losingEmote || '';
+
+    if (!isInputValidString(targetUser) || !isInputValidString(rivalUser)
+            || !isInputValidString(targetAlias) || !isInputValidString(rivalAlias)
+            || !isInputValidString(winningEmote) || !isInputValidString(losingEmote)) {
+        res.status(400).send('Invalid queries');
+        return;
+    }
+
+    try {
+        const result = await instaWar(targetUser, rivalUser, targetAlias, rivalAlias,
+                winningEmote, losingEmote);
 
         if (!result) {
             res.status(500).send('Malformed response from instagram');
