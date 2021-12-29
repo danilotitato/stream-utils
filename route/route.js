@@ -2,7 +2,7 @@ const express = require('express');
 const req = require('express/lib/request');
 const router = express.Router();
 
-const campaignLeaderboard = require('../trackmania/campaign-leaderboard');
+const campaignLeaderboard = require('../trackmania/campaign-leaderboard.js');
 const cotdRanking = require('../trackmania/cotd-ranking.js');
 const cotdRemainingTime = require('../trackmania/cotd-remaining-time.js');
 const lastCotdResult = require('../trackmania/last-cotd-result.js');
@@ -18,6 +18,7 @@ const lastTiktokPost = require('../socials/tiktok.js');
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;
+const verifyTiktokCache = require('../utils/cache.js').verifyTiktokCache;
 
 router.get('/', (req, res) => {
     res.send('Yep, it is up');
@@ -300,7 +301,7 @@ router.get('/instawar', async (req, res) => {
     }
 });
 
-router.get('/lasttiktok', async (req, res) => {
+router.get('/lasttiktok', verifyTiktokCache, async (req, res) => {
     const user = req.query.user;
 
     if (!isInputValidString(user)) {
