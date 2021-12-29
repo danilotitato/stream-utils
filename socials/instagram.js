@@ -43,7 +43,7 @@ const instaWar = async (targetUser, rivalUser, targetAlias, rivalAlias,
         const diffMsg = followersDiff > 0 ? ` Need ${followersDiff} followers more!` : '';
         const emote = followersDiff >= 0 ? losingEmote : winningEmote;
 
-        return `${targetAlias} has ${targetFollowers} followers vs. ${rivalFollowers} from ${rivalAlias} on instagram ${emote}${diffMsg} Follow me on instagram.com/${targetUser}`
+        return `${targetAlias} has ${targetFollowers} followers vs. ${rivalFollowers} from ${rivalAlias} on Instagram ${emote}${diffMsg} Follow me on instagram.com/${targetUser}`
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
