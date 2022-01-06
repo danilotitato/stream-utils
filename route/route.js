@@ -21,7 +21,12 @@ const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBo
 const verifyTiktokCache = require('../utils/cache.js').verifyTiktokCache;
 
 router.get('/', (req, res) => {
-    res.send('Yep, it is up');
+    const empty = req.query.empty;
+    if (empty) {
+        res.end();
+        return;
+    }
+    res.send('YEP it is up');
 });
 
 router.get('/cotdtime', (req, res) => {
