@@ -1,7 +1,7 @@
 {
-  "name": "tm-stream-utils",
+  "name": "stream-utils",
   "version": "0.1.0",
-  "description": "Simple API to be used by stream elements commands related to Trackmania",
+  "description": "Simple API to be used by stream chatbots commands",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danilotitato/TM-stream-utils.git"
+    "url": "git+https://github.com/danilotitato/stream-utils.git"
   },
   "author": "Danilo Titato",
   "license": "None",
   "bugs": {
-    "url": "https://github.com/danilotitato/TM-stream-utils/issues"
+    "url": "https://github.com/danilotitato/stream-utils/issues"
   },
-  "homepage": "https://github.com/danilotitato/TM-stream-utils#readme",
+  "homepage": "https://github.com/danilotitato/stream-utils#readme",
   "dependencies": {
     "axios": "^0.24.0",
     "dotenv": "^10.0.0",
