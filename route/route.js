@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
     res.send('YEP it is up');
 });
 
-router.get('/cotdtime', (req, res) => {
+router.get('/tm/cotdtime', (req, res) => {
     try {
         res.send(cotdRemainingTime());
     } catch (error) {
@@ -37,7 +37,7 @@ router.get('/cotdtime', (req, res) => {
     }
 });
 
-router.get('/lastcotd', async (req, res) => {
+router.get('/tm/lastcotd', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -66,7 +66,7 @@ router.get('/lastcotd', async (req, res) => {
     }
 });
 
-router.get('/3v3rank', async (req, res) => {
+router.get('/tm/3v3rank', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -95,7 +95,7 @@ router.get('/3v3rank', async (req, res) => {
     }
 });
 
-router.get('/royalrank', async (req, res) => {
+router.get('/tm/royalrank', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -124,7 +124,7 @@ router.get('/royalrank', async (req, res) => {
     }
 });
 
-router.get('/totdinfo', async (req, res) => {
+router.get('/tm/totdinfo', async (req, res) => {
     try {
         res.send(await totdInfo());
     } catch (error) {
@@ -132,7 +132,7 @@ router.get('/totdinfo', async (req, res) => {
     }
 });
 
-router.get('/timeplaying', async (req, res) => {
+router.get('/tm/timeplaying', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -161,7 +161,7 @@ router.get('/timeplaying', async (req, res) => {
     }
 });
 
-router.get('/bestcotd', async (req, res) => {
+router.get('/tm/bestcotd', async (req, res) => {
     const name = req.query.name;
     const isPrimary = req.query.isPrimary;
 
@@ -196,7 +196,7 @@ router.get('/bestcotd', async (req, res) => {
     }
 });
 
-router.get('/avgcotd', async (req, res) => {
+router.get('/tm/avgcotd', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -225,7 +225,7 @@ router.get('/avgcotd', async (req, res) => {
     }
 });
 
-router.get('/leaderboard', async (req, res) => {
+router.get('/tm/leaderboard', async (req, res) => {
     const campaign = req.query.campaign;
 
     if (!isInputValidString(campaign)) {
@@ -254,7 +254,7 @@ router.get('/leaderboard', async (req, res) => {
     }
 });
 
-router.get('/lastinsta', async (req, res) => {
+router.get('/socials/lastinsta', async (req, res) => {
     const user = req.query.user;
 
     if (!isInputValidString(user)) {
@@ -276,7 +276,7 @@ router.get('/lastinsta', async (req, res) => {
     }
 });
 
-router.get('/instawar', async (req, res) => {
+router.get('/socials/instawar', async (req, res) => {
     const targetUser = req.query.targetUser;
     const rivalUser = req.query.rivalUser;
     const targetAlias = req.query.targetAlias || targetUser;
@@ -306,7 +306,7 @@ router.get('/instawar', async (req, res) => {
     }
 });
 
-router.get('/lasttiktok', verifyTiktokCache, async (req, res) => {
+router.get('/socials/lasttiktok', verifyTiktokCache, async (req, res) => {
     const user = req.query.user;
 
     if (!isInputValidString(user)) {
