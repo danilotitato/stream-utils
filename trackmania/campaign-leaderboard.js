@@ -22,7 +22,7 @@ const campaignLeaderboard = async (campaign, campaignId, clubId) => {
             ? ` :third_place: ${data.tops[2].player.name} (${formatter.format(data.tops[2].points)} points) |`
             : '';
 
-        return `${campaign} leaderboard: ${firstPlace}${secondPlace}${thirdPlace}`;
+        return `| ${campaign} top 3 | ${firstPlace}${secondPlace}${thirdPlace}`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
