@@ -29,7 +29,7 @@ const lastCotdResult = async accountId => {
  
         const percentageRank = ((lastCotdData.rank / lastCotdData.totalplayers) * 100).toFixed(2);
  
-        return `${cupName} of ${cupDate} results: | Div: ${lastCotdData.div} | Rank: ${lastCotdData.divrank} | Overall rank: ${lastCotdData.rank} (Top ${percentageRank}%) |`;
+        return `| ${cupName} of ${cupDate} | Div: ${lastCotdData.div} | Rank: ${lastCotdData.divrank} | Overall rank: ${lastCotdData.rank} (Top ${percentageRank}%) |`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
