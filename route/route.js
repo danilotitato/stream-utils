@@ -12,6 +12,8 @@ const retrievePlayerId = require('../trackmania/retrieve-player-id.js');
 const timePlaying = require('../trackmania/time-playing.js');
 const totdInfo = require('../trackmania/totd-info.js');
 
+const wzStats = require('../warzone/wz-stats.js');
+
 const instaWar = require('../socials/instagram.js').instaWar;
 const lastInstaPost = require('../socials/instagram.js').lastInstaPost;
 const lastTiktokPost = require('../socials/tiktok.js');
@@ -19,6 +21,8 @@ const lastTiktokPost = require('../socials/tiktok.js');
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;
 const verifyTiktokCache = require('../utils/cache.js').verifyTiktokCache;
+
+//TODO: separate routes in distinct files
 
 router.get('/', (req, res) => {
     const empty = req.query.empty;
@@ -253,6 +257,33 @@ router.get('/tm/leaderboard', async (req, res) => {
         res.status(400).send(error.message);
     }
 });
+
+//-----------------------------------------------------------------------------------------------//
+
+router.get('/wz/stats', async (req, res) => {
+    const playerTag = req.query.playerTag;
+    const mode = req.query.mode;
+
+    if (!isInputValidString(playerTag) || (mode && !isInputValidString(mode))) {
+        res.status(400).send('Invalid player tag or mode');
+        return;
+    }
+
+    try {
+        const result = await wzStats(playerTag.replace('#', '%23'), mode);
+
+        if (!result) {
+            res.status(500).send('Malformed response from tracker api');
+            return;
+        }
+
+        res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+//-----------------------------------------------------------------------------------------------//
 
 router.get('/socials/lastinsta', async (req, res) => {
     const user = req.query.user;
