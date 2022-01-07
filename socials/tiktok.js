@@ -9,14 +9,15 @@ const maxAttepmts = 5;
 
 const lastTiktokPost = async username => {
     let attempts = 1;
-
+    
     try {
+        const apiKey = process.env.SCRAPERAPI_KEY;
         const videoUrlRe = /www.tiktok.com\/@\w+\/video\/\d+/gm;
 
         let lastVideos;
         while(true) {
             const tiktokUrl = `www.tiktok.com/@${username}`;
-            const scraperUrl = `http://api.scraperapi.com?api_key=${process.env.SCRAPERAPI_KEY}&url=${tiktokUrl}`;
+            const scraperUrl = `http://api.scraperapi.com?api_key=${apiKey}&url=${tiktokUrl}`;
             const page = await axios.get(scraperUrl);
 
             lastVideos = page.data.match(videoUrlRe);
