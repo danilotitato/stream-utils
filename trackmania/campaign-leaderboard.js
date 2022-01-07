@@ -11,7 +11,7 @@ const campaignLeaderboard = async (campaign, campaignId, clubId) => {
         const formatter = new Intl.NumberFormat('en', { notation: 'compact' });
 
         const firstPlace = data.tops.length > 0
-            ? `| :first_place: ${data.tops[0].player.name} (${formatter.format(data.tops[0].points)} points) |`
+            ? `:first_place: ${data.tops[0].player.name} (${formatter.format(data.tops[0].points)} points) |`
             : 'No players on the leaderboard';
 
         const secondPlace = data.tops.length > 1
