@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "instagram-api.js": "^0.0.9",
     "luxon": "^2.0.2",
+    "mongoose": "^6.1.5",
     "node-cache": "^5.1.2"
   },
   "engines": {

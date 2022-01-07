@@ -14,5 +14,6 @@ router.get('/', (req, res) => {
 router.use('/tm', require('./tm.js'));
 router.use('/wz', require('./wz.js'));
 router.use('/socials', require('./socials.js'));
+router.use('/watchaction', require('./watchaction.js'));
 
 module.exports = router;
