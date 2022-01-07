@@ -52,7 +52,7 @@ const rankMatchMaking = async (accountId, type) => {
         const rankName = rankNames[matchMakingType[type]][rank];
         const nextRankName = rankNames[matchMakingType[type]][nextRank];
 
-        return `${type} rank: ${rankName}` + (type == '3v3' ? ` - ${score} points (${remainingScore} left for ${nextRankName})` : '');
+        return `TM ${type}: | Rank:  ${rankName}` + (type == '3v3' ? ` | ${score} points (${remainingScore} left for ${nextRankName})` : '') + ' |';
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
