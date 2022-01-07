@@ -1,6 +1,6 @@
 const express = require('express');
 const req = require('express/lib/request');
-const router = express.Router();
+const tmRouter = express.Router();
 
 const campaignLeaderboard = require('../trackmania/campaign-leaderboard.js');
 const cotdRanking = require('../trackmania/cotd-ranking.js');
@@ -12,28 +12,10 @@ const retrievePlayerId = require('../trackmania/retrieve-player-id.js');
 const timePlaying = require('../trackmania/time-playing.js');
 const totdInfo = require('../trackmania/totd-info.js');
 
-const wzStats = require('../warzone/wz-stats.js');
-
-const instaWar = require('../socials/instagram.js').instaWar;
-const lastInstaPost = require('../socials/instagram.js').lastInstaPost;
-const lastTiktokPost = require('../socials/tiktok.js');
-
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;
-const verifyTiktokCache = require('../utils/cache.js').verifyTiktokCache;
 
-//TODO: separate routes in distinct files
-
-router.get('/', (req, res) => {
-    const empty = req.query.empty;
-    if (empty) {
-        res.end();
-        return;
-    }
-    res.send('YEP it is up');
-});
-
-router.get('/tm/cotdtime', (req, res) => {
+tmRouter.get('/cotdtime', (req, res) => {
     try {
         res.send(cotdRemainingTime());
     } catch (error) {
@@ -41,7 +23,7 @@ router.get('/tm/cotdtime', (req, res) => {
     }
 });
 
-router.get('/tm/lastcotd', async (req, res) => {
+tmRouter.get('/lastcotd', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -70,7 +52,7 @@ router.get('/tm/lastcotd', async (req, res) => {
     }
 });
 
-router.get('/tm/3v3rank', async (req, res) => {
+tmRouter.get('/3v3rank', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -99,7 +81,7 @@ router.get('/tm/3v3rank', async (req, res) => {
     }
 });
 
-router.get('/tm/royalrank', async (req, res) => {
+tmRouter.get('/royalrank', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -128,7 +110,7 @@ router.get('/tm/royalrank', async (req, res) => {
     }
 });
 
-router.get('/tm/totdinfo', async (req, res) => {
+tmRouter.get('/totdinfo', async (req, res) => {
     try {
         res.send(await totdInfo());
     } catch (error) {
@@ -136,7 +118,7 @@ router.get('/tm/totdinfo', async (req, res) => {
     }
 });
 
-router.get('/tm/timeplaying', async (req, res) => {
+tmRouter.get('/timeplaying', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -165,7 +147,7 @@ router.get('/tm/timeplaying', async (req, res) => {
     }
 });
 
-router.get('/tm/bestcotd', async (req, res) => {
+tmRouter.get('/bestcotd', async (req, res) => {
     const name = req.query.name;
     const isPrimary = req.query.isPrimary;
 
@@ -200,7 +182,7 @@ router.get('/tm/bestcotd', async (req, res) => {
     }
 });
 
-router.get('/tm/avgcotd', async (req, res) => {
+tmRouter.get('/avgcotd', async (req, res) => {
     const name = req.query.name;
 
     if (!isInputValidString(name)) {
@@ -229,7 +211,7 @@ router.get('/tm/avgcotd', async (req, res) => {
     }
 });
 
-router.get('/tm/leaderboard', async (req, res) => {
+tmRouter.get('/leaderboard', async (req, res) => {
     const campaign = req.query.campaign;
 
     if (!isInputValidString(campaign)) {
@@ -258,105 +240,4 @@ router.get('/tm/leaderboard', async (req, res) => {
     }
 });
 
-//-----------------------------------------------------------------------------------------------//
-
-router.get('/wz/stats', async (req, res) => {
-    const playerTag = req.query.playerTag;
-    const mode = req.query.mode;
-
-    if (!isInputValidString(playerTag) || (mode && !isInputValidString(mode))) {
-        res.status(400).send('Invalid player tag or mode');
-        return;
-    }
-
-    try {
-        const result = await wzStats(playerTag.replace('#', '%23'), mode);
-
-        if (!result) {
-            res.status(500).send('Malformed response from tracker api');
-            return;
-        }
-
-        res.send(result);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-});
-
-//-----------------------------------------------------------------------------------------------//
-
-router.get('/socials/lastinsta', async (req, res) => {
-    const user = req.query.user;
-
-    if (!isInputValidString(user)) {
-        res.status(400).send('Invalid username');
-        return;
-    }
-
-    try {
-        const result = await lastInstaPost(user);
-
-        if (!result) {
-            res.status(500).send('Malformed response from instagram');
-            return;
-        }
-
-        res.send(result);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-});
-
-router.get('/socials/instawar', async (req, res) => {
-    const targetUser = req.query.targetUser;
-    const rivalUser = req.query.rivalUser;
-    const targetAlias = req.query.targetAlias || targetUser;
-    const rivalAlias = req.query.rivalAlias || rivalUser;
-    const winningEmote = req.query.winningEmote || '';
-    const losingEmote = req.query.losingEmote || '';
-
-    if (!isInputValidString(targetUser) || !isInputValidString(rivalUser)
-            || !isInputValidString(targetAlias) || !isInputValidString(rivalAlias)
-            || !isInputValidString(winningEmote) || !isInputValidString(losingEmote)) {
-        res.status(400).send('Invalid queries');
-        return;
-    }
-
-    try {
-        const result = await instaWar(targetUser, rivalUser, targetAlias, rivalAlias,
-                winningEmote, losingEmote);
-
-        if (!result) {
-            res.status(500).send('Malformed response from instagram');
-            return;
-        }
-
-        res.send(result);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-});
-
-router.get('/socials/lasttiktok', verifyTiktokCache, async (req, res) => {
-    const user = req.query.user;
-
-    if (!isInputValidString(user)) {
-        res.status(400).send('Invalid username');
-        return;
-    }
-
-    try {
-        const result = await lastTiktokPost(user);
-
-        if (!result) {
-            res.status(500).send('Malformed response from tiktok');
-            return;
-        }
-
-        res.send(result);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-});
-
-module.exports = router;
+module.exports = tmRouter;
