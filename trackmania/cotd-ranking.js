@@ -22,9 +22,11 @@ const cotdRanking = async (accountId, isPrimaryOnly, isAvgOnly) => {
         const bestRankInDiv = isPrimaryOnly ? data.stats.bestprimary.bestrankindiv : data.stats.bestoverall.bestrankindiv;
         const bestRankInDivDiv = isPrimaryOnly ? data.stats.bestprimary.bestrankindivdiv : data.stats.bestoverall.bestrankindivdiv;
 
+        const rerunString = isPrimaryOnly ? '' : ' (including reruns)';
+
         return isAvgOnly
-            ? `| Top ${avgRank}% | Division ${avgDiv} |`
-            : `| Rank: ${bestOverallRank} ` +
+            ? `| COTD Average | Top ${avgRank}% | Division ${avgDiv} |`
+            : `| COTD Best ${rerunString} | Rank: ${bestOverallRank} ` +
                 `| Div: ${bestDiv} (Rank ${bestRankDivRank}) ` +
                 `| Top Rank in div: ${bestRankInDiv} (Div ${bestRankInDivDiv}) |`;
     } catch (error) {
