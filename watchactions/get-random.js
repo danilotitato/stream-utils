@@ -16,7 +16,7 @@ const getRandom = async () => {
 
         const watchAction = await cursor.next();
 
-        return `${watchAction.verb} ${between(10, 5000)} ${watchAction.action}`;
+        return `${watchAction.verb} ${between(10, 1100)} ${watchAction.action}`;
 
     } catch(error) {
         console.error('Error: ', error.message);
