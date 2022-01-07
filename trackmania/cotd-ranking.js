@@ -23,10 +23,10 @@ const cotdRanking = async (accountId, isPrimaryOnly, isAvgOnly) => {
         const bestRankInDivDiv = isPrimaryOnly ? data.stats.bestprimary.bestrankindivdiv : data.stats.bestoverall.bestrankindivdiv;
 
         return isAvgOnly
-            ? `top ${avgRank}%, being in division ${avgDiv} in average.`
-            : `best overall rank: ${bestOverallRank}. ` +
-                `Best division: ${bestDiv} (rank ${bestRankDivRank}). ` +
-                `Best rank in a cup: ${bestRankInDiv} in div ${bestRankInDivDiv}`;
+            ? `| Top ${avgRank}% | Division ${avgDiv} |`
+            : `| Rank: ${bestOverallRank} ` +
+                `| Div: ${bestDiv} (Rank ${bestRankDivRank}) ` +
+                `| Top Rank in div: ${bestRankInDiv} (Div ${bestRankInDivDiv}) |`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
