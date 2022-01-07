@@ -30,7 +30,7 @@ const wzStats = async (playerTag, mode) => {
         const kills = data.data.segments[reqModeIndex].stats.kills.value;
         const deaths = data.data.segments[reqModeIndex].stats.deaths.value;
         const kdRatio = data.data.segments[reqModeIndex].stats.kdRatio.value;
-        const timePlayed = data.data.segments[reqModeIndex].stats.timePlayed.value;
+        const timePlayed = data.data.segments[reqModeIndex].stats.timePlayed.displayValue;
 
         return `| ${reqModeName} stats | Wins: ${wins} | Kills: ${kills} | Deaths: ${deaths} | K/D Ratio: ${kdRatio} | Time played: ${timePlayed} |`;
     } catch (error) {
