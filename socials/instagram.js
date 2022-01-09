@@ -40,7 +40,11 @@ const instaWar = async (targetUser, rivalUser, targetAlias, rivalAlias,
         const rivalFollowers = rivalUserData.edge_followed_by.count;
         const followersDiff = rivalFollowers - targetFollowers;
 
-        const diffMsg = followersDiff > 0 ? ` Need ${followersDiff} followers more!` : '';
+        const diffMsg = followersDiff > 0
+            ? ` Need ${followersDiff} followers more!`
+            : followersDiff < 0
+                ? ` We are ${-followersDiff} followers ahead, keep it going!`
+                : ' We need just another one to pass!';
         const emote = followersDiff >= 0 ? losingEmote : winningEmote;
 
         return `${targetAlias} has ${targetFollowers} followers vs. ${rivalFollowers} from ${rivalAlias} on Instagram ${emote}${diffMsg} Follow me on instagram.com/${targetUser}`
