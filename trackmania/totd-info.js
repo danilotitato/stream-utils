@@ -1,4 +1,5 @@
 const axios = require('axios');
+const clearTMString = require('./clear-tm-string.js');
 
 const totdInfo = async () => {
     try {
@@ -9,7 +10,7 @@ const totdInfo = async () => {
         });
 
         const authorName = data.authorplayer.name;
-        const mapName = cleanTMString(data.name);
+        const mapName = clearTMString(data.name);
         const mapUrl = `https://trackmania.exchange/tracks/view/${data.exchangeid}`
         const mapUrlMessage = data.exchangeid ? `Check it here: ${mapUrl}` : 'Not uploaded to trackmania.exchange';
 
@@ -26,11 +27,6 @@ const getMapUid = async () => {
     });
 
     return data.uid;
-}
-
-const cleanTMString = input => {
-    const re = /\$([0-9A-Fa-f]{1,3}|[wnoitsgz]{1})/g;
-    return input.replaceAll(re, '');
 }
 
 module.exports = totdInfo;
