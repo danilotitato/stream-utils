@@ -1,4 +1,5 @@
 const axios = require('axios');
+const getNumberWithOrdinal = require('../utils/ordinal-suffix.js');
 
 const cotdRanking = async (accountId, isPrimaryOnly, isAvgOnly) => {
     try {
@@ -14,20 +15,20 @@ const cotdRanking = async (accountId, isPrimaryOnly, isAvgOnly) => {
             return;
         }
 
-        const bestOverallRank = isPrimaryOnly ? data.stats.bestprimary.bestrank : data.stats.bestoverall.bestrank;
+        const bestOverallRank = getNumberWithOrdinal(isPrimaryOnly ? data.stats.bestprimary.bestrank : data.stats.bestoverall.bestrank);
 
         const bestDiv = isPrimaryOnly ? data.stats.bestprimary.bestdiv : data.stats.bestoverall.bestdiv;
-        const bestRankDivRank = isPrimaryOnly ? data.stats.bestprimary.bestrankdivrank : data.stats.bestoverall.bestrankdivrank;
+        const bestRankDivRank = getNumberWithOrdinal(isPrimaryOnly ? data.stats.bestprimary.bestrankdivrank : data.stats.bestoverall.bestrankdivrank);
 
-        const bestRankInDiv = isPrimaryOnly ? data.stats.bestprimary.bestrankindiv : data.stats.bestoverall.bestrankindiv;
+        const bestRankInDiv = getNumberWithOrdinal(isPrimaryOnly ? data.stats.bestprimary.bestrankindiv : data.stats.bestoverall.bestrankindiv);
         const bestRankInDivDiv = isPrimaryOnly ? data.stats.bestprimary.bestrankindivdiv : data.stats.bestoverall.bestrankindivdiv;
 
-        const rerunString = isPrimaryOnly ? '' : ' (including reruns)';
+        const rerunString = isPrimaryOnly ? '' : ' (w/ reruns)';
 
         return isAvgOnly
             ? `| COTD Average | Top ${avgRank}% | Division ${avgDiv} |`
-            : `| COTD Best ${rerunString} | Rank: ${bestOverallRank} ` +
-                `| Div: ${bestDiv} (Rank ${bestRankDivRank}) ` +
+            : `| COTD Best ${rerunString} | Overall: ${bestOverallRank} ` +
+                `| Div: ${bestDiv} (${bestRankDivRank}) ` +
                 `| Top Rank in div: ${bestRankInDiv} (Div ${bestRankInDivDiv}) |`;
     } catch (error) {
         console.error('Error: ', error.message);

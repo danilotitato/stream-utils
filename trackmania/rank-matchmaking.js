@@ -1,4 +1,5 @@
 const axios = require('axios');
+const getNumberWithOrdinal = require('../utils/ordinal-suffix.js');
 
 const matchMakingType = {
     '3v3': 0,
@@ -45,15 +46,17 @@ const rankMatchMaking = async (accountId, type) => {
             return;
         }
 
-        const rank = matchmakingData.info.division.position;
+        const position = matchmakingData.info.division.position;
+        const rank = getNumberWithOrdinal(matchmakingData.info.rank);
         const score = matchmakingData.info.score;
         const remainingScore = matchmakingData.info.division_next.minpoints - score;
         const nextRank = matchmakingData.info.division_next.position;
 
-        const rankName = rankNames[matchMakingType[type]][rank];
+        const rankName = rankNames[matchMakingType[type]][position];
         const nextRankName = rankNames[matchMakingType[type]][nextRank];
 
-        return `| TM ${type} | Rank:  ${rankName}` + (type == '3v3' ? ` | ${score} points (${remainingScore} left for ${nextRankName})` : '') + ' |';
+
+        return `| TM ${type} | Rank: ${rankName}` + (type == '3v3' ? ` | ${score} points (${remainingScore} left for ${nextRankName})` : '') + ` | ${rank} in the world |`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;

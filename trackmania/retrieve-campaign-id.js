@@ -1,5 +1,5 @@
 const axios = require('axios');
-const clearTMString = require('./clear-tm-string.js');
+const clearTMString = require('../utils/clear-tm-string.js');
 
 const retrieveCampaignId = async campaignName => {
     try {
