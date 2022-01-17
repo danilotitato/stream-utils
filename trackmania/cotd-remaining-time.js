@@ -20,14 +20,15 @@ const cotdRemainingTime = () => {
             ? 'Night'
             : 'Morning';
     const runningCup = getRunningCup(nextCup, hours, minutes);
+    const phase = minutes >= 45 ? 'Qualification' : 'Knockout'; // First 15 minutes for seeding
 
-    return (runningCup ? `Cup of the ${runningCup} may still be running. ` : '')
+    return (runningCup ? `Cup of the ${runningCup} may still be running (${phase} phase). ` : '')
         + (hours === 0 ? '' : `${hours}h and `)
         + `${minutes} min until the next Cup of the ${nextCup}`;
 }
 
 const getRunningCup = (nextCup, hours, minutes) => {
-    if (hours >= 7 && minutes >= 15) { // Rough estimative of 45 minutes per cup
+    if (hours >= 7 && minutes >= 10) { // Rough estimative of 50 minutes per cup
         return nextCup === 'Day'
             ? 'Morning'
             : nextCup === 'Morning'
