@@ -1,5 +1,6 @@
 const axios = require('axios');
 const clearTMString = require('./clear-tm-string.js');
+const { Duration } = require('luxon');
 
 const totdInfo = async () => {
     try {
@@ -13,8 +14,9 @@ const totdInfo = async () => {
         const mapName = clearTMString(data.name);
         const mapUrl = `https://trackmania.exchange/tracks/view/${data.exchangeid}`
         const mapUrlMessage = data.exchangeid ? `Check it here: ${mapUrl}` : 'Not uploaded to trackmania.exchange';
+        const authorTime = Duration.fromMillis(data.authorScore).toFormat(data.authorScore >= 60000 ? 'mm:ss.SSS' : 'ss.SSS');
 
-        return `${mapName} by ${authorName}. ${mapUrlMessage}`;
+        return `${mapName} by ${authorName}. AT: ${authorTime}. ${mapUrlMessage}`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
