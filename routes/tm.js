@@ -149,7 +149,7 @@ tmRouter.get('/timeplaying', async (req, res) => {
 
 tmRouter.get('/bestcotd', async (req, res) => {
     const name = req.query.name;
-    const isPrimary = req.query.isPrimary;
+    const isPrimary = req.query.isPrimary || 'false';
 
     if (!isInputValidString(name)) {
         res.status(400).send('Invalid player name');
