@@ -2,7 +2,7 @@ const express = require('express');
 const req = require('express/lib/request');
 const waRouter = express.Router();
 
-const getRandom = require('../watchactions/get-random.js');
+const getRandom = require('../services/watchactions/get-random.js');
 
 waRouter.get('/random', async (req, res) => {
     try {

@@ -2,9 +2,9 @@ const express = require('express');
 const req = require('express/lib/request');
 const socialsRouter = express.Router();
 
-const instaWar = require('../socials/instagram.js').instaWar;
-const lastInstaPost = require('../socials/instagram.js').lastInstaPost;
-const lastTiktokPost = require('../socials/tiktok.js');
+const instaWar = require('../services/socials/instagram.js').instaWar;
+const lastInstaPost = require('../services/socials/instagram.js').lastInstaPost;
+const lastTiktokPost = require('../services/socials/tiktok.js');
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const verifyTiktokCache = require('../utils/cache.js').verifyTiktokCache;

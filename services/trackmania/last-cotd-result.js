@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { DateTime } = require('luxon');
-const getNumberWithOrdinal = require('../utils/ordinal-suffix.js');
+const getNumberWithOrdinal = require('../../utils/ordinal-suffix.js');
 
 const lastCotdResult = async accountId => {
     const cupNumberName = {
