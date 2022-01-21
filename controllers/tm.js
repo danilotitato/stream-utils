@@ -2,15 +2,15 @@ const express = require('express');
 const req = require('express/lib/request');
 const tmRouter = express.Router();
 
-const campaignLeaderboard = require('../trackmania/campaign-leaderboard.js');
-const cotdRanking = require('../trackmania/cotd-ranking.js');
-const cotdRemainingTime = require('../trackmania/cotd-remaining-time.js');
-const lastCotdResult = require('../trackmania/last-cotd-result.js');
-const rankMatchMaking = require('../trackmania/rank-matchmaking.js');
-const retrieveCampaignId = require('../trackmania/retrieve-campaign-id.js');
-const retrievePlayerId = require('../trackmania/retrieve-player-id.js');
-const timePlaying = require('../trackmania/time-playing.js');
-const totdInfo = require('../trackmania/totd-info.js');
+const campaignLeaderboard = require('../services/trackmania/campaign-leaderboard.js');
+const cotdRanking = require('../services/trackmania/cotd-ranking.js');
+const cotdRemainingTime = require('../services/trackmania/cotd-remaining-time.js');
+const lastCotdResult = require('../services/trackmania/last-cotd-result.js');
+const rankMatchMaking = require('../services/trackmania/rank-matchmaking.js');
+const retrieveCampaignId = require('../services/trackmania/retrieve-campaign-id.js');
+const retrievePlayerId = require('../services/trackmania/retrieve-player-id.js');
+const timePlaying = require('../services/trackmania/time-playing.js');
+const totdInfo = require('../services/trackmania/totd-info.js');
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;

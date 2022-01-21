@@ -1,7 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
-const getCache = require('../utils/cache.js').getCache;
-const getBackupCache = require('../utils/cache.js').getBackupCache;
+const getCache = require('../../utils/cache.js').getCache;
+const getBackupCache = require('../../utils/cache.js').getBackupCache;
 
 const timer = ms => new Promise(resolve => setTimeout(resolve, ms));
 

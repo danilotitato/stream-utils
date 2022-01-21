@@ -1,5 +1,5 @@
 const axios = require('axios');
-const getNumberWithOrdinal = require('../utils/ordinal-suffix.js');
+const getNumberWithOrdinal = require('../../utils/ordinal-suffix.js');
 
 const matchMakingType = {
     '3v3': 0,
