@@ -29,7 +29,7 @@ const randomVideo = async channel => {
                 continuation = nextResponse.continuation;
             }
 
-            const randomVideoItem = getRandomElement(videoList);
+            const randomVideoItem = getRandomElement(videoList.slice(1)); // Skip last video
             const randomVideoTitle = randomVideoItem.title
             const randomVideoId = randomVideoItem.videoId
 
