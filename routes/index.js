@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
 router.use('/tm', require('../controllers/tm.js'));
 router.use('/wz', require('../controllers/wz.js'));
 router.use('/socials', require('../controllers/socials.js'));
+router.use('/yt', require('../controllers/youtube.js'));
 router.use('/watchaction', require('../controllers/watchaction.js'));
 router.use('/misc', require('../controllers/misc.js'));
 

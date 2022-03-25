@@ -24,7 +24,8 @@
     "instagram-api.js": "^0.0.9",
     "luxon": "^2.3.0",
     "mongoose": "^6.1.5",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "yt-channel-info": "^3.0.0"
   },
   "engines": {
     "node": "17.x"
