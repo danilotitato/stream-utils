@@ -30,12 +30,12 @@ const randomVideo = async channel => {
             }
 
             const randomVideoItem = getRandomElement(videoList.slice(1)); // Skip last video
-            const randomVideoTitle = randomVideoItem.title
-            const randomVideoId = randomVideoItem.videoId
+            const randomVideoTitle = randomVideoItem.title;
+            const randomVideoId = randomVideoItem.videoId;
 
             return `${randomVideoTitle} - https://youtu.be/${randomVideoId}`;
          } else {
-            console.error('Channel could not be found.')
+            console.error('Channel could not be found.');
             throw firstResponse.alertMessage;
          }
     } catch (error) {
