@@ -69,7 +69,7 @@ miscRouter.get('/removestring', async (req, res) => {
             return;
         }
 
-        res.send(encodeURIComponent(result));
+        res.send(result);
     } catch (error) {
         res.status(400).send(error.message);
     }
