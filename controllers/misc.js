@@ -5,6 +5,7 @@ const miscRouter = express.Router();
 const convertRank = require('../services/misc/convert-rank.js');
 const regularizeChars = require('../services/misc/regularize-chars.js');
 const removeString = require('../services/misc/remove-string.js');
+const countup = require('../services/misc/countup.js');
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
 
@@ -66,6 +67,29 @@ miscRouter.get('/removestring', async (req, res) => {
 
         if (!result) {
             res.status(500).send('Error removing string');
+            return;
+        }
+
+        res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+miscRouter.get('/countup', async (req, res) => {
+    const isoDate = req.query.isoDate;
+    const format = req.query.format;
+
+    if (!isInputValidString(isoDate) || !isInputValidString(format)) {
+        res.status(400).send('Invalid input');
+        return;
+    }
+
+    try {
+        const result = countup(isoDate, format);
+
+        if (!result) {
+            res.status(500).send('Error formatting date');
             return;
         }
 
