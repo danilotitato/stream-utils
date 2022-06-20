@@ -116,7 +116,7 @@ miscRouter.get('/shoutout', async (req, res) => {
     }
 
     try {
-        res.send(await shoutout(amount, min, delay, uptime, shoutoutMsg));
+        res.send(await shoutout(Number(amount), Number(min), delay, uptime, shoutoutMsg));
     } catch (error) {
         res.status(400).send(error.message);
     }
