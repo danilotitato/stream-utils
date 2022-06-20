@@ -6,8 +6,10 @@ const convertRank = require('../services/misc/convert-rank.js');
 const regularizeChars = require('../services/misc/regularize-chars.js');
 const removeString = require('../services/misc/remove-string.js');
 const countup = require('../services/misc/countup.js');
+const shoutout = require('../services/misc/shoutout.js');
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
+const isInputValidInteger = require('../utils/validate-input.js').isInputValidInteger;
 
 miscRouter.get('/convertrank', async (req, res) => {
     const rank = req.query.rank;
@@ -94,6 +96,27 @@ miscRouter.get('/countup', async (req, res) => {
         }
 
         res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+miscRouter.get('/shoutout', async (req, res) => {
+    const amount = req.query.amount;
+    const min = req.query.min;
+    const delay = req.query.delay;
+    const uptime = req.query.uptime;
+    const shoutoutMsg = req.query.shoutoutMsg;
+
+    if (!isInputValidInteger(amount) || !isInputValidInteger(min)
+        || !isInputValidInteger(delay)|| !isInputValidString(uptime)
+        || !isInputValidString(shoutoutMsg)) {
+        res.status(400).send('Invalid input');
+        return;
+    }
+
+    try {
+        res.send(await shoutout(amount, min, delay, uptime, shoutoutMsg));
     } catch (error) {
         res.status(400).send(error.message);
     }
