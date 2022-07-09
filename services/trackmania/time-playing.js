@@ -17,9 +17,9 @@ const timePlaying = async (accountId) => {
         const totalTime = currentTime.diff(startDate, ['years', 'months', 'days', 'hours']).toObject();
         const startDateString = startDate.toLocaleString({ month: 'long', day: 'numeric', year: 'numeric' });
 
-        const yearsString = totalTime.years ? ` ${totalTime.years} year${totalTime.years > 1 ? 's' : ''},` : '';
-        const monthsString = totalTime.months ? ` ${totalTime.months} month${totalTime.months > 1 ? 's' : ''} and ` : '';
-        const daysString = `${totalTime.days} day${totalTime.days > 1 ? 's' : ''}`;
+        const yearsString = totalTime.years ? ` ${totalTime.years} year${totalTime.years !== 1 ? 's' : ''},` : '';
+        const monthsString = totalTime.months ? ` ${totalTime.months} month${totalTime.months !== 1 ? 's' : ''} and ` : '';
+        const daysString = totalTime.days ? ` ${totalTime.days} day${totalTime.days !== 1 ? 's' : ''}` : '';
 
         return `${startDateString}. It has been${yearsString}${monthsString}${daysString} since`;
     } catch (error) {
