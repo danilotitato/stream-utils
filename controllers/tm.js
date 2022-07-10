@@ -253,7 +253,7 @@ tmRouter.get('/divwins', async (req, res) => {
     }
 
     if (!isInputValidBoolean(firstDiv) || !isInputValidInteger(cupNumber)
-        || ![1, 2, 3].includes(Number(cupNumber))) {
+        || ![0, 1, 2, 3].includes(Number(cupNumber))) {
         res.status(400).send('Invalid COTD wins requisition');
         return;
     }
