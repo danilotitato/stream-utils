@@ -32,7 +32,7 @@ const divWins = async (accountId, firstDiv, cupNumber) => {
             ++page;
         } while (pageSize > 0);
 
-        return `${winCounter} wins`;
+        return `${winCounter} win${winCounter !== 1 ? 's' : ''}`;
     } catch (error) {
         console.error('Error: ', error.message);
         throw error;
