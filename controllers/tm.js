@@ -11,8 +11,10 @@ const retrieveCampaignId = require('../services/trackmania/retrieve-campaign-id.
 const retrievePlayerId = require('../services/trackmania/retrieve-player-id.js');
 const timePlaying = require('../services/trackmania/time-playing.js');
 const totdInfo = require('../services/trackmania/totd-info.js');
+const divWins = require('../services/trackmania/div-wins.js');
 
 const isInputValidString = require('../utils/validate-input.js').isInputValidString;
+const isInputValidInteger = require('../utils/validate-input.js').isInputValidInteger;
 const isInputValidBoolean = require('../utils/validate-input.js').isInputValidBoolean;
 
 tmRouter.get('/cotdtime', (req, res) => {
@@ -228,6 +230,43 @@ tmRouter.get('/leaderboard', async (req, res) => {
         }
 
         const result = await campaignLeaderboard(campaign, campaignId, clubId);
+
+        if (!result) {
+            res.status(500).send('Malformed response from trackmania.io');
+            return;
+        }
+
+        res.send(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+tmRouter.get('/divwins', async (req, res) => {
+    const name = req.query.name;
+    const firstDiv = req.query.firstDiv || 'false';
+    const cupNumber = req.query.cupNumber || 0;
+
+    if (!isInputValidString(name)) {
+        res.status(400).send('Invalid player name');
+        return;
+    }
+
+    if (!isInputValidBoolean(firstDiv) || !isInputValidInteger(cupNumber)
+        || [1, 2, 3].includes(Number(cupNumber))) {
+        res.status(400).send('Invalid COTD wins requisition');
+        return;
+    }
+
+    try {
+        const accountId = await retrievePlayerId(name);
+
+        if (!accountId) {
+            res.status(404).send('Player not found');
+            return;
+        }
+
+        const result = await divWins(accountId, (firstDiv === 'true'), Number(cupNumber));
 
         if (!result) {
             res.status(500).send('Malformed response from trackmania.io');
