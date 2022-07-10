@@ -28,10 +28,12 @@ const lastCotdResult = async accountId => {
 
         const cupDate = DateTime.fromISO(lastCotdData.timestamp).toLocaleString({ month: 'long', day: 'numeric', year: 'numeric' });
 
-        const percentageRank = ((lastCotdData.rank / lastCotdData.totalplayers) * 100).toFixed(2);
+        const rank = Number(lastCotdData.rank) + (Number(lastCotdData.divrank) == 0 ? 64 : 0);
 
-        const overallRank = getNumberWithOrdinal(lastCotdData.rank);
-        const divRank = getNumberWithOrdinal(lastCotdData.divrank);
+        const percentageRank = ((rank / Number(lastCotdData.totalplayers)) * 100).toFixed(2);
+
+        const overallRank = getNumberWithOrdinal(rank);
+        const divRank = lastCotdData.divrank == 0 ? '(unplayed)' : getNumberWithOrdinal(lastCotdData.divrank);
 
         return `| ${cupName} of ${cupDate} | Div: ${lastCotdData.div} | Rank: ${divRank} | Overall rank: ${overallRank} (Top ${percentageRank}%) |`;
     } catch (error) {
